@@ -1,45 +1,45 @@
 /* Estilos gerais para o corpo do documento */
 body {
     font-family: 'Arial', sans-serif;
-    font-size: 1.3em; /* AUMENTADO: Tamanho da fonte base para todo o site */
+    font-size: 1.3em;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f8ff; /* Light blue background */
+    background-color: #f0f8ff;
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
-    color: #333; /* Cor de texto padrão para melhor legibilidade */
+    color: #333;
 }
 
 /* Container principal do jogo */
-.section-container { /* Renomeei de .game-container para .section-container, como no HTML fornecido anteriormente */
+.section-container {
     background-color: #ffffff;
-    border-radius: 20px; /* Borda mais arredondada */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Sombra mais suave */
-    padding: 40px; /* Mais padding interno */
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    padding: 40px;
     text-align: center;
-    max-width: 900px; /* Aumentei a largura máxima para acomodar textos maiores */
+    max-width: 900px;
     width: 100%;
     position: relative;
-    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
+    box-sizing: border-box;
 }
 
 /* Título principal do jogo (se houver, como H1) */
 h1 {
-    color: #4CAF50; /* Green */
+    color: #4CAF50;
     margin-bottom: 30px;
-    font-size: 3em; /* AUMENTADO: Título principal bem grande */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Sombra para o texto */
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Títulos das seções (Bem-vindo(a), Área do Professor, etc.) */
 h2 {
-    color: #2196F3; /* Blue */
+    color: #2196F3;
     margin-top: 25px;
     margin-bottom: 20px;
-    font-size: 2.5em; /* AUMENTADO: Títulos de seção maiores */
+    font-size: 2.5em;
     font-weight: bold;
 }
 
@@ -48,8 +48,8 @@ h3 {
     color: #424242;
     margin-top: 30px;
     margin-bottom: 15px;
-    font-size: 2em; /* AUMENTADO: Títulos de subseção maiores */
-    border-bottom: 2px solid #eee; /* Linha de separação suave */
+    font-size: 2em;
+    border-bottom: 2px solid #eee;
     padding-bottom: 10px;
 }
 
@@ -59,22 +59,22 @@ h3 {
 }
 
 /* Botões gerais */
-.btn { /* Renomeado de 'button' para '.btn' para ser mais específico e evitar conflitos */
-    background-color: #008CBA; /* Blue */
+.btn {
+    background-color: #008CBA;
     color: white;
-    padding: 15px 30px; /* AUMENTADO: Botões maiores e mais fáceis de clicar */
+    padding: 15px 30px;
     border: none;
-    border-radius: 10px; /* Mais arredondado */
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 1.5em; /* AUMENTADO: Texto do botão maior */
-    margin: 12px; /* Espaçamento entre botões */
+    font-size: 1.5em;
+    margin: 12px;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra para o botão */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .btn:hover {
     background-color: #005f7c;
-    transform: translateY(-3px); /* Efeito de elevação maior */
+    transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
@@ -85,7 +85,7 @@ h3 {
 
 /* Estilos específicos de botões */
 #startButton {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 #startButton:hover {
@@ -93,16 +93,15 @@ h3 {
 }
 
 #finishReadingButton, #submitAnswersButton {
-    background-color: #f44336; /* Red */
+    background-color: #f44336;
 }
 
 #finishReadingButton:hover, #submitAnswersButton:hover {
     background-color: #da190b;
 }
 
-/* Não existe #nextPhaseButton no JS atual, substituí por #continueGameButton */
 #continueGameButton {
-    background-color: #ff9800; /* Orange */
+    background-color: #ff9800;
 }
 
 #continueGameButton:hover {
@@ -110,7 +109,7 @@ h3 {
 }
 
 #restartButton {
-    background-color: #673AB7; /* Deep Purple */
+    background-color: #673AB7;
 }
 
 #restartButton:hover {
@@ -118,7 +117,7 @@ h3 {
 }
 
 #saveContentButton {
-    background-color: #8BC34A; /* Light Green */
+    background-color: #8BC34A;
 }
 
 #saveContentButton:hover {
@@ -126,7 +125,7 @@ h3 {
 }
 
 #retryPhaseButton {
-    background-color: #2196F3; /* Blue */
+    background-color: #2196F3;
 }
 
 #retryPhaseButton:hover {
@@ -134,7 +133,7 @@ h3 {
 }
 
 #showExplanationButton {
-    background-color: #9C27B0; /* Purple */
+    background-color: #9C27B0;
 }
 
 #showExplanationButton:hover {
@@ -142,10 +141,10 @@ h3 {
 }
 
 #startPlayForStudentButton {
-    background-color: #1976D2; /* Azul mais escuro */
+    background-color: #1976D2;
     margin-top: 25px;
-    padding: 18px 35px; /* Botão ainda maior */
-    font-size: 1.6em; /* Texto maior */
+    padding: 18px 35px;
+    font-size: 1.6em;
 }
 
 #startPlayForStudentButton:hover {
@@ -154,7 +153,7 @@ h3 {
 
 #addQuestionButton {
     background-color: #4CAF50;
-    margin-top: 20px; /* Mais espaço acima */
+    margin-top: 20px;
 }
 
 #addQuestionButton:hover {
@@ -162,10 +161,10 @@ h3 {
 }
 
 #closeFinalResultsModalButton {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     margin-top: 25px;
-    padding: 18px 35px; /* Botão ainda maior */
-    font-size: 1.6em; /* Texto maior */
+    padding: 18px 35px;
+    font-size: 1.6em;
 }
 
 #closeFinalResultsModalButton:hover {
@@ -174,63 +173,63 @@ h3 {
 
 /* Estilos para o timer */
 .timer-label {
-    font-size: 1.6em; /* AUMENTADO: Texto "Tempo:" maior */
+    font-size: 1.6em;
     font-weight: bold;
     color: #555;
     margin-bottom: 15px;
 }
 
 #timer {
-    font-size: 3.5em; /* AUMENTADO: O display do tempo em si bem grande */
+    font-size: 3.5em;
     font-weight: bold;
-    color: #e74c3c; /* Vermelho vibrante */
-    background-color: #ffebee; /* Fundo levemente avermelhado */
+    color: #e74c3c;
+    background-color: #ffebee;
     padding: 15px 30px;
     border-radius: 15px;
     display: inline-block;
     box-shadow: 0 4px 8px rgba(231,76,60,0.2);
-    letter-spacing: 2px; /* Espaçamento entre os dígitos */
+    letter-spacing: 2px;
 }
 
 /* Estilos para o conteúdo de leitura (fases de leitura) */
 #readingContent .content-to-read {
-    font-size: 4em; /* AUMENTADO: Texto principal da leitura ENORME para crianças */
-    line-height: 1.4; /* Espaçamento entre linhas confortável */
+    font-size: 4em;
+    line-height: 1.4;
     font-weight: bold;
-    color: #34495e; /* Azul escuro quase preto */
+    color: #34495e;
     text-align: center;
-    margin: 60px 0; /* Mais espaço vertical */
-    padding: 20px; /* Padding interno para o texto */
-    background-color: #e8f5e9; /* Light green background */
+    margin: 60px 0;
+    padding: 20px;
+    background-color: #e8f5e9;
     border-radius: 15px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    border: 2px solid #a5d6a7; /* Borda sutil */
-    min-height: 150px; /* Altura mínima para não ficar muito pequeno */
-    display: flex; /* Para centralizar verticalmente se o texto for curto */
+    border: 2px solid #a5d6a7;
+    min-height: 150px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Estilo para o texto principal da interpretação */
-#comprehensionText { /* Ajustei para o ID usado no HTML */
-    font-size: 1.8em; /* AUMENTADO: Texto de compreensão maior */
-    line-height: 1.7; /* Bom espaçamento para leitura */
-    background-color: #ffe0b2; /* Um tom de laranja mais claro */
-    padding: 30px; /* Mais padding */
+#comprehensionText {
+    font-size: 1.8em;
+    line-height: 1.7;
+    background-color: #ffe0b2;
+    padding: 30px;
     border-radius: 15px;
     margin-bottom: 30px;
     text-align: left;
     color: #333;
-    border: 2px dashed #ffb74d; /* Borda pontilhada divertida */
+    border: 2px dashed #ffb74d;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
-.questions-container { /* Adicionado para envolver o container de perguntas */
+.questions-container {
     margin-top: 30px;
 }
 
 .question-block {
-    margin-bottom: 25px; /* Mais espaço entre as perguntas */
+    margin-bottom: 25px;
     text-align: left;
     background-color: #f9f9f9;
     padding: 20px;
@@ -240,18 +239,18 @@ h3 {
 }
 
 .question-block p {
-    font-size: 1.5em; /* AUMENTADO: Perguntas individuais maiores */
+    font-size: 1.5em;
     margin-bottom: 12px;
     color: #555;
     font-weight: bold;
 }
 
 .question-block input[type="text"] {
-    width: calc(100% - 24px); /* Ajuste para padding e borda */
-    padding: 15px; /* AUMENTADO: Inputs maiores */
-    font-size: 1.3em; /* AUMENTADO: Texto de input maior */
-    border: 2px solid #ccc; /* Borda mais visível */
-    border-radius: 8px; /* Mais arredondado */
+    width: calc(100% - 24px);
+    padding: 15px;
+    font-size: 1.3em;
+    border: 2px solid #ccc;
+    border-radius: 8px;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -259,27 +258,27 @@ h3 {
 .question-block input[type="text"]:focus {
     border-color: #2196F3;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(33,150,243,0.3); /* Sombra azul ao focar */
+    box-shadow: 0 0 0 4px rgba(33,150,243,0.3);
 }
 
 /* Resultados finais */
 #totalTime, #comprehensionResult {
-    font-size: 1.6em; /* AUMENTADO: Textos de resultado maiores */
+    font-size: 1.6em;
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
-    background-color: #e3f2fd; /* Fundo suave */
+    background-color: #e3f2fd;
     padding: 15px;
     border-radius: 10px;
 }
 
 .star-rating {
-    font-size: 3.5em; /* AUMENTADO: Estrelas GIGANTES! */
-    color: #FFD700; /* Cor ouro */
+    font-size: 3.5em;
+    color: #FFD700;
     margin-top: 30px;
     margin-bottom: 20px;
-    letter-spacing: 8px; /* Mais espaçamento entre as estrelas */
-    animation: bounceIn 0.8s ease-out; /* Animação de entrada */
+    letter-spacing: 8px;
+    animation: bounceIn 0.8s ease-out;
 }
 
 /* Animação para as estrelas */
@@ -289,10 +288,9 @@ h3 {
     100% { transform: scale(1); }
 }
 
-
 /* Feedback detalhado de compreensão */
 #comprehensionFeedback h3 {
-    font-size: 2em; /* AUMENTADO: Título do feedback detalhado */
+    font-size: 2em;
     margin-top: 35px;
     margin-bottom: 20px;
     color: #0056b3;
@@ -301,7 +299,7 @@ h3 {
 }
 
 .feedback-item {
-    font-size: 1.3em; /* AUMENTADO: Itens individuais de feedback */
+    font-size: 1.3em;
     margin-bottom: 15px;
     padding: 12px;
     border-radius: 8px;
@@ -311,26 +309,26 @@ h3 {
 }
 
 .feedback-item .correct {
-    color: #2e7d32; /* Verde escuro */
+    color: #2e7d32;
     font-weight: bold;
 }
 
 .feedback-item .incorrect {
-    color: #c62828; /* Vermelho escuro */
+    color: #c62828;
     font-weight: bold;
 }
 
 /* Seção de Administração (Professor) */
 #adminSection {
-    background-color: #e3f2fd; /* Light blue */
-    border: 2px solid #90caf9; /* Borda mais visível */
+    background-color: #e3f2fd;
+    border: 2px solid #90caf9;
     border-radius: 20px;
     padding: 35px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
 
 .admin-phase-editor {
-    margin-bottom: 30px; /* Mais espaço entre editores de fase */
+    margin-bottom: 30px;
     text-align: left;
     background-color: #fefefe;
     padding: 25px;
@@ -342,26 +340,26 @@ h3 {
 .admin-phase-editor label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px; /* Mais espaço */
-    margin-top: 15px; /* Espaço antes da label */
-    color: #3f51b5; /* Indigo */
-    font-size: 1.2em; /* AUMENTADO: Labels maiores */
+    margin-bottom: 8px;
+    margin-top: 15px;
+    color: #3f51b5;
+    font-size: 1.2em;
 }
 
 .admin-phase-editor input[type="text"],
-.admin-phase-editor input[type="number"], /* Adicionado input type number */
+.admin-phase-editor input[type="number"],
 .admin-phase-editor textarea {
-    width: calc(100% - 28px); /* Ajuste para padding e borda */
-    padding: 12px; /* AUMENTADO: Inputs e textareas maiores */
+    width: calc(100% - 28px);
+    padding: 12px;
     border: 2px solid #bbdefb;
     border-radius: 8px;
-    font-size: 1.1em; /* AUMENTADO: Texto em inputs maior */
+    font-size: 1.1em;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-phase-editor textarea {
-    min-height: 100px; /* Altura mínima maior */
+    min-height: 100px;
     resize: vertical;
 }
 
@@ -377,7 +375,7 @@ h3 {
     color: #4CAF50;
     font-weight: bold;
     margin-top: 20px;
-    font-size: 1.4em; /* Mensagem de salvar maior */
+    font-size: 1.4em;
 }
 
 /* Estilos do Modal */
@@ -388,24 +386,25 @@ h3 {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fundo mais escuro para o modal */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
     background-color: #fff;
     margin: auto;
-    padding: 40px; /* Mais padding */
-    border-radius: 20px; /* Mais arredondado */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 600px; /* Largura maior */
+    max-width: 600px;
     width: 90%;
     position: relative;
-    animation: fadeIn 0.4s ease-out; /* Animação de entrada para o modal */
+    animation: fadeIn 0.4s ease-out;
+    overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -414,7 +413,7 @@ h3 {
 }
 
 .modal-content p {
-    font-size: 1.8em; /* AUMENTADO: Mensagem principal do modal bem grande */
+    font-size: 1.8em;
     margin-bottom: 25px;
     color: #333;
     line-height: 1.5;
@@ -426,35 +425,35 @@ h3 {
     padding: 20px;
     border-radius: 12px;
     text-align: left;
-    font-size: 1.4em; /* AUMENTADO: Explicação maior */
+    font-size: 1.4em;
     line-height: 1.6;
     margin-top: 30px;
     color: #006064;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.modal-content .btn { /* Ajustar botões dentro do modal */
+.modal-content .btn {
     margin: 10px;
     padding: 15px 30px;
-    font-size: 1.4em; /* AUMENTADO: Botões do modal maiores */
+    font-size: 1.4em;
 }
 
 /* Linha separadora */
 hr {
     border: 0;
-    height: 2px; /* Mais espessa */
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); /* Mais escura */
-    margin: 40px 0; /* Mais espaço */
+    height: 2px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+    margin: 40px 0;
 }
 
-/* NOVO ESTILO PARA O CAMPO DE NOME */
-#studentNameInput { /* Usando o ID do HTML */
-    width: calc(100% - 60px); /* Ajuste para padding e borda */
-    padding: 18px 25px; /* AUMENTADO: Input de nome maior */
+/* Campo de Nome */
+#studentNameInput {
+    width: calc(100% - 60px);
+    padding: 18px 25px;
     margin-bottom: 30px;
-    font-size: 1.8em; /* AUMENTADO: Texto do nome maior */
-    border: 2px solid #a5d6a7; /* Borda colorida */
-    border-radius: 12px; /* Mais arredondado */
+    font-size: 1.8em;
+    border: 2px solid #a5d6a7;
+    border-radius: 12px;
     box-sizing: border-box;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -462,53 +461,51 @@ hr {
 }
 
 #studentNameInput:focus {
-    border-color: #4CAF50; /* Verde ao focar */
+    border-color: #4CAF50;
     outline: none;
     box-shadow: 0 0 0 5px rgba(76,175,80,0.3);
 }
 
-/* NOME DO ALUNO na tela de instruções */
+/* Nome do Aluno na tela de instruções */
 #studentNameDisplay {
-    font-size: 2.5em; /* AUMENTADO: Nome do aluno bem visível */
-    color: #00796b; /* Um verde azulado */
+    font-size: 2.5em;
+    color: #00796b;
     margin-bottom: 25px;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-
-/* Estilos para a mensagem final dentro do modal */
+/* Mensagem final dentro do modal */
 .final-message {
-    font-size: 2em; /* AUMENTADO: Mensagem final bem grande e impactante */
+    font-size: 2em;
     font-weight: bold;
     margin-top: 40px;
     padding: 25px;
     border-radius: 15px;
-    border: 3px solid; /* Borda mais grossa */
+    border: 3px solid;
     line-height: 1.5;
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* Estilos para mensagem de sucesso/motivação */
 .final-message.success {
-    background-color: #e8f5e9; /* Light green */
-    color: #2e7d32; /* Darker green */
+    background-color: #e8f5e9;
+    color: #2e7d32;
     border-color: #a5d6a7;
 }
 
 .final-message.motivation {
-    background-color: #fff3e0; /* Light orange */
-    color: #e65100; /* Darker orange */
+    background-color: #fff3e0;
+    color: #e65100;
     border-color: #ffcc80;
 }
 
-/* NOVO ESTILO PARA O ÍCONE NO MODAL */
+/* Ícone no modal */
 .modal-icon {
-    font-size: 6em; /* AUMENTADO: Ícone GIGANTE! */
+    font-size: 6em;
     margin-bottom: 25px;
     line-height: 1;
-    display: block; /* Garante que o ícone fique na própria linha */
-    animation: pulse 1.5s infinite ease-in-out; /* Animação suave de pulsação */
+    display: block;
+    animation: pulse 1.5s infinite ease-in-out;
 }
 
 @keyframes pulse {
@@ -518,11 +515,11 @@ hr {
 }
 
 .modal-icon.success-icon {
-    color: #4CAF50; /* Verde para sucesso */
+    color: #4CAF50;
 }
 
 .modal-icon.motivation-icon {
-    color: #ff9800; /* Laranja para motivação */
+    color: #ff9800;
 }
 
 /* Botão de fechar do modal (x) */
@@ -530,7 +527,7 @@ hr {
     position: absolute;
     top: 15px;
     right: 25px;
-    font-size: 3em; /* AUMENTADO: X maior */
+    font-size: 3em;
     font-weight: bold;
     color: #aaa;
     cursor: pointer;
@@ -545,17 +542,17 @@ hr {
 
 /* Ajustes para parágrafos em geral fora de blocos específicos */
 .section-container p {
-    font-size: 1.4em; /* Parágrafos nas instruções e outras seções */
+    font-size: 1.4em;
     line-height: 1.6;
     margin-bottom: 20px;
     color: #444;
 }
 
-/* Ajuste para o .admin-btn para que seja visível */
+/* Botão da área do professor */
 .admin-btn {
-    background-color: #607D8B; /* Cinza azulado */
+    background-color: #607D8B;
     color: white;
-    font-size: 1.2em; /* Um pouco menor, pois é uma área do professor */
+    font-size: 1.2em;
     padding: 10px 20px;
     margin-top: 15px;
 }
@@ -563,3 +560,291 @@ hr {
 .admin-btn:hover {
     background-color: #455A64;
 }
+
+/* Estilos para a seção de Escrita Criativa */
+#creativeWriting {
+    background-color: #e6eefc;
+    border: 2px solid #a7d9f7;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+#creativeWriting h2 {
+    color: #4CAF50;
+    margin-bottom: 25px;
+}
+
+#writingInstructions {
+    font-size: 1.6em;
+    color: #555;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+#baseFableContent {
+    background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    line-height: 1.7;
+    text-align: left;
+    min-height: 120px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    color: #444;
+}
+
+#studentWritingArea {
+    width: calc(100% - 40px);
+    min-height: 300px;
+    padding: 20px;
+    font-size: 1.4em;
+    line-height: 1.6;
+    border: 2px solid #2196F3;
+    border-radius: 15px;
+    box-sizing: border-box;
+    resize: vertical;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    color: #333;
+}
+
+#studentWritingArea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 5px rgba(76,175,80,0.3);
+}
+
+#lineCountDisplay {
+    font-size: 1.3em;
+    color: #666;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+#submitWritingButton {
+    background-color: #9C27B0;
+}
+
+#submitWritingButton:hover {
+    background-color: #7b1fa2;
+}
+
+/* Estilos para o Foguete e Animação */
+.rocket-container {
+    position: absolute;
+    bottom: 50%;
+    left: -100px;
+    transform: translateY(50%);
+    width: 80px;
+    height: 120px;
+    z-index: 1001;
+    animation: flyRocket 8s forwards ease-in-out;
+}
+
+.rocket {
+    width: 100%;
+    height: 100%;
+    background-color: #ff5722;
+    border-radius: 50% 50% 0 0 / 80% 80% 0 0;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.rocket::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 30px solid #f44336;
+    border-radius: 5px;
+}
+
+.rocket::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: #add8e6;
+    border-radius: 50%;
+    border: 3px solid #64b5f6;
+}
+
+.flame {
+    width: 50px;
+    height: 80px;
+    background: linear-gradient(to top, #ffeb3b, #ff9800, #f44336);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    box-shadow: 0 0 20px 5px #ffeb3b;
+    animation: pulseFlame 0.5s infinite alternate;
+}
+
+@keyframes pulseFlame {
+    from { transform: translateX(-50%) rotate(180deg) scaleY(0.8); opacity: 0.8; }
+    to { transform: translateX(-50%) rotate(180deg) scaleY(1.1); opacity: 1; }
+}
+
+/* Animação do foguete voando */
+@keyframes flyRocket {
+    0% {
+        left: -100px;
+        bottom: 50%;
+        transform: translateY(50%) rotate(0deg);
+    }
+    10% {
+        bottom: 60%;
+        transform: translateY(50%) rotate(-5deg);
+    }
+    50% {
+        left: 50%;
+        bottom: 70%;
+        transform: translate(-50%, 50%) rotate(0deg);
+    }
+    90% {
+        bottom: 90%;
+        transform: translateY(50%) rotate(5deg);
+    }
+    100% {
+        left: 100%;
+        bottom: 100%;
+        transform: translateY(50%) rotate(10deg);
+        opacity: 0;
+    }
+}
+
+/* Mensagem animada */
+.animated-text {
+    position: absolute;
+    font-size: 2.8em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    opacity: 0;
+    animation: fadeInOutMessage 7s forwards ease-in-out;
+    z-index: 1002;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+}
+
+@keyframes fadeInOutMessage {
+    0% { opacity: 0; transform: translate(-50%, -60px) scale(0.8); }
+    10% { opacity: 1; transform: translate(-50%, -50px) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50px) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -40px) scale(0.9); }
+}
+
+/* Estilos para a seção de administração (última fase) */
+#adminSection .admin-phase-editor:last-of-type {
+    margin-bottom: 40px;
+}
+
+/* Novos estilos para a celebração final */
+.modal-content.festive {
+    background: linear-gradient(135deg, #e8f5e9, #fff3e0, #e3f2fd);
+    border: 3px solid #4CAF50;
+    box-shadow: 0 0 20px rgba(76,175,80,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.star {
+    position: absolute;
+    font-size: 1.5em;
+    color: #FFD700;
+    opacity: 0;
+    animation: fallStar 3s ease-in infinite;
+}
+
+@keyframes fallStar {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(600px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.rocket-container {
+    animation: flyRocket 8s forwards ease-in-out;
+}
+
+.rocket::before {
+    border-bottom-color: #FFD700;
+}
+
+.flame {
+    box-shadow: 0 0 30px 10px #ffeb3b, 0 0 50px 20px #ff9800;
+}
+
+@keyframes flyRocket {
+    0% {
+        left: -100px;
+        bottom: 50%;
+        transform: translateY(50%) rotate(0deg);
+        opacity: 1;
+    }
+    10% {
+        bottom: 60%;
+        transform: translateY(50%) rotate(-5deg);
+    }
+    50% {
+        left: 50%;
+        bottom: 70%;
+        transform: translate(-50%, 50%) rotate(0deg);
+    }
+    90% {
+        bottom: 90%;
+        transform: translateY(50%) rotate(5deg);
+    }
+    100% {
+        left: 100%;
+        bottom: 100%;
+        transform: translateY(50%) rotate(10deg);
+        opacity: 0;
+    }
+}
+
+.final-message.celebration {
+    font-size: 1.8em;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 3px solid #FFD700;
+    color: #2e7d32;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+

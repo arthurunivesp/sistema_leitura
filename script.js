@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionsSection = document.getElementById('instructions');
     const gameplaySection = document.getElementById('gameplay');
     const comprehensionSection = document.getElementById('comprehension');
+    const creativeWritingSection = document.getElementById('creativeWriting');
     const resultsSection = document.getElementById('results');
     const adminSection = document.getElementById('adminSection');
     const nameInputSection = document.getElementById('nameInputSection');
@@ -31,19 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const phase4ExplanationTextarea = document.getElementById('phase4Explanation');
     const comprehensionMainTextarea = document.getElementById('comprehensionMainText');
     const comprehensionExplanationTextarea = document.getElementById('comprehensionExplanation');
+
+    const fableBaseTextarea = document.getElementById('fableBaseText');
+    const fableExplanationTextarea = document.getElementById('fableExplanation');
+    const minWritingLinesInput = document.getElementById('minWritingLines');
+
     const saveContentButton = document.getElementById('saveContentButton');
     const saveMessage = document.getElementById('saveMessage');
     const startPlayForStudentButton = document.getElementById('startPlayForStudentButton');
-    const goToAdminButton = document.getElementById('goToAdminButton'); // Adicionado o botão para ir para admin
+    const goToAdminButton = document.getElementById('goToAdminButton');
 
-    // NOVOS ELEMENTOS PARA O TEMPO LIMITE DO PROFESSOR
     const phase1TimeLimitInput = document.getElementById('phase1TimeLimit');
     const phase2TimeLimitInput = document.getElementById('phase2TimeLimit');
     const phase3TimeLimitInput = document.getElementById('phase3TimeLimit');
     const phase4TimeLimitInput = document.getElementById('phase4TimeLimit');
 
-
-    // Elementos para gerenciar perguntas no admin
     const adminQuestionsContainer = document.getElementById('adminQuestionsContainer');
     const addQuestionButton = document.getElementById('addQuestionButton');
 
@@ -53,16 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const retryPhaseButton = document.getElementById('retryPhaseButton');
     const showExplanationButton = document.getElementById('showExplanationButton');
     const continueGameButton = document.getElementById('continueGameButton');
+    const closeFeedbackModalButton = document.getElementById('closeFeedbackModalButton');
     const closeFinalResultsModalButton = document.getElementById('closeFinalResultsModalButton');
     const modalIcon = document.getElementById('modalIcon');
     const finalMotivationMessagePara = document.getElementById('finalMotivationMessage');
 
     const timerBeep = document.getElementById('timerBeep');
 
-    // NOVOS ELEMENTOS PARA O NOME DO ALUNO
     const studentNameInput = document.getElementById('studentNameInput');
     const submitNameButton = document.getElementById('submitNameButton');
     const studentNameDisplay = document.getElementById('studentNameDisplay');
+
+    const baseFableContentDiv = document.getElementById('baseFableContent');
+    const studentWritingArea = document.getElementById('studentWritingArea');
+    const lineCountDisplay = document.getElementById('lineCountDisplay');
+    const submitWritingButton = document.getElementById('submitWritingButton');
+
+    const rocketAnimationContainer = document.getElementById('rocketAnimationContainer');
+    const animatedMessage = document.getElementById('animatedMessage');
+    const starsContainer = document.getElementById('stars-container');
 
     // --- Variáveis de Estado do Jogo ---
     let currentPhase = 0;
@@ -70,17 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let startTime;
     let readingTimes = [];
     let studentName = '';
+    let lastComprehensionAnswers = [];
+    let lastComprehensionCorrectStatus = [];
+    let studentFableText = '';
 
-    // TEMPOS LIMITES AJUSTADOS (permanecem os mesmos da última versão)
-    // Estes serão usados como fallback se o professor não definir um tempo
     const TIME_THRESHOLD_PER_CHAR = 1.0;
     const TIME_THRESHOLD_PER_WORD = 2.0;
 
-    let lastComprehensionAnswers = [];
-    let lastComprehensionCorrectStatus = [];
-
-    // --- Conteúdo do Jogo (Valores Padrão) ---
-    // Adicionado 'timeLimit: null' para indicar que o professor pode definir
     let gameContent = {
         phases: [
             {
@@ -89,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 instruction: "",
                 explanation: "Esta fase é para praticar a leitura de palavras curtas. Tente identificar todas as letras para ler a palavra.",
                 buttonText: "Terminei de Ler!",
-                timeLimit: null // Professor pode definir
+                timeLimit: null
             },
             {
                 type: 'reading',
@@ -97,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 instruction: "",
                 explanation: "Aqui, você pratica a leitura de pequenas frases. Tente ler as palavras em sequência, sem interrupções.",
                 buttonText: "Terminei de Ler!",
-                timeLimit: null // Professor pode definir
+                timeLimit: null
             },
             {
                 type: 'reading',
@@ -105,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 instruction: "",
                 explanation: "Nesta fase, o objetivo é ler um texto curto de forma fluida. Preste atenção à pontuação.",
                 buttonText: "Terminei de Ler!",
-                timeLimit: null // Professor pode definir
+                timeLimit: null
             },
             {
                 type: 'reading',
@@ -113,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 instruction: "",
                 explanation: "Este texto é um pouco mais longo. Tente manter a velocidade de leitura e a compreensão do que está acontecendo na história.",
                 buttonText: "Terminei de Ler!",
-                timeLimit: null // Professor pode definir
+                timeLimit: null
             },
             {
                 type: 'comprehension',
@@ -137,11 +145,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         correctAnswer: "sobre estrelas e rios"
                     }
                 ]
+            },
+            {
+                type: 'creativeWriting',
+                baseFable: "Era uma vez em uma floresta mágica, vivia um coelho muito esperto chamado Saltitante. Ele adorava cenouras e passava o dia explorando. Um dia, Saltitante encontrou uma porta secreta escondida entre as árvores...",
+                explanation: "Agora é sua vez de ser um escritor! Leia a fábula e continue a história, inventando o que acontece depois. Use sua imaginação e crie um final divertido e original!",
+                minLines: 20
             }
         ]
     };
 
-    let adminQuestionCounter = gameContent.phases[4].questions.length + 1;
+    let adminQuestionCounter = gameContent.phases[gameContent.phases.length - 2].questions.length + 1;
 
     // --- Funções de Salvar/Carregar Conteúdo ---
     function loadContent() {
@@ -149,12 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedContent) {
             try {
                 const parsedContent = JSON.parse(savedContent);
-                // Validação mais robusta para o formato do conteúdo
-                if (parsedContent.phases && parsedContent.phases.length === 5 &&
-                    parsedContent.phases[4] && parsedContent.phases[4].questions && parsedContent.phases[4].questions.length >= 0) {
+                if (parsedContent.phases && parsedContent.phases.length >= 6 &&
+                    parsedContent.phases[4] && parsedContent.phases[4].type === 'comprehension' && parsedContent.phases[4].questions &&
+                    parsedContent.phases[5] && parsedContent.phases[5].type === 'creativeWriting') {
                     gameContent = parsedContent;
 
-                    // Carrega conteúdo e explicação
                     phase1ContentInput.value = gameContent.phases[0].content;
                     phase1ExplanationTextarea.value = gameContent.phases[0].explanation;
                     phase2ContentInput.value = gameContent.phases[1].content;
@@ -166,12 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     comprehensionMainTextarea.value = gameContent.phases[4].content;
                     comprehensionExplanationTextarea.value = gameContent.phases[4].explanation;
 
-                    // Carrega tempos limites definidos pelo professor
                     phase1TimeLimitInput.value = gameContent.phases[0].timeLimit !== null ? gameContent.phases[0].timeLimit : '';
                     phase2TimeLimitInput.value = gameContent.phases[1].timeLimit !== null ? gameContent.phases[1].timeLimit : '';
                     phase3TimeLimitInput.value = gameContent.phases[2].timeLimit !== null ? gameContent.phases[2].timeLimit : '';
                     phase4TimeLimitInput.value = gameContent.phases[3].timeLimit !== null ? gameContent.phases[3].timeLimit : '';
-
 
                     adminQuestionsContainer.innerHTML = '';
                     gameContent.phases[4].questions.forEach((q, index) => {
@@ -183,10 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="text" id="question${questionNum}Admin" data-question-index="${index}" value="${q.question}">
                             <label for="answer${questionNum}Admin">Resposta ${questionNum} (exata):</label>
                             <input type="text" id="answer${questionNum}Admin" data-answer-index="${index}" value="${q.correctAnswer}">
+                            <button type="button" class="remove-question-btn btn-small" data-index="${index}">Remover</button>
                         `;
                         adminQuestionsContainer.appendChild(questionBlock);
+
+                        questionBlock.querySelector('.remove-question-btn').addEventListener('click', (event) => {
+                            const btnIndex = parseInt(event.target.dataset.index);
+                            gameContent.phases[4].questions.splice(btnIndex, 1);
+                            saveContent();
+                            loadContent();
+                        });
                     });
                     adminQuestionCounter = gameContent.phases[4].questions.length + 1;
+
+                    fableBaseTextarea.value = gameContent.phases[5].baseFable;
+                    fableExplanationTextarea.value = gameContent.phases[5].explanation;
+                    minWritingLinesInput.value = gameContent.phases[5].minLines;
                 } else {
                     console.warn("Conteúdo salvo no localStorage tem formato inválido ou incompleto. Usando conteúdo padrão.");
                 }
@@ -199,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveContent() {
         gameContent.phases[0].content = phase1ContentInput.value.trim();
         gameContent.phases[0].explanation = phase1ExplanationTextarea.value.trim();
-        // Salva o tempo limite, se for um número válido
         gameContent.phases[0].timeLimit = parseInt(phase1TimeLimitInput.value) || null;
 
         gameContent.phases[1].content = phase2ContentInput.value.trim();
@@ -216,8 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameContent.phases[4].content = comprehensionMainTextarea.value.trim();
         gameContent.phases[4].explanation = comprehensionExplanationTextarea.value.trim();
-        // A fase de compreensão não tem timeLimit definido pelo professor, então não a alteramos
-
         gameContent.phases[4].questions = [];
         const questionInputs = adminQuestionsContainer.querySelectorAll('[id^="question"][id$="Admin"]');
         const answerInputs = adminQuestionsContainer.querySelectorAll('[id^="answer"][id$="Admin"]');
@@ -231,6 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+
+        gameContent.phases[5].baseFable = fableBaseTextarea.value.trim();
+        gameContent.phases[5].explanation = fableExplanationTextarea.value.trim();
+        gameContent.phases[5].minLines = parseInt(minWritingLinesInput.value) || 20;
 
         localStorage.setItem('gameReadingContent', JSON.stringify(gameContent));
         saveMessage.textContent = 'Conteúdo salvo com sucesso!';
@@ -246,11 +270,24 @@ document.addEventListener('DOMContentLoaded', () => {
         questionBlock.classList.add('admin-phase-editor');
         questionBlock.innerHTML = `
             <label for="question${newQuestionIndex}Admin">Pergunta ${newQuestionIndex}:</label>
-            <input type="text" id="question${newQuestionIndex}Admin" data-question-index="${newQuestionIndex -1}" value="">
+            <input type="text" id="question${newQuestionIndex}Admin" data-question-index="${newQuestionIndex - 1}" value="">
             <label for="answer${newQuestionIndex}Admin">Resposta ${newQuestionIndex} (exata):</label>
-            <input type="text" id="answer${newQuestionIndex}Admin" data-answer-index="${newQuestionIndex -1}" value="">
+            <input type="text" id="answer${newQuestionIndex}Admin" data-answer-index="${newQuestionIndex - 1}" value="">
+            <button type="button" class="remove-question-btn btn-small" data-index="${newQuestionIndex - 1}">Remover</button>
         `;
         adminQuestionsContainer.appendChild(questionBlock);
+
+        questionBlock.querySelector('.remove-question-btn').addEventListener('click', (event) => {
+            const questionText = event.target.parentNode.querySelector('[id^="question"]').value.trim();
+            const phaseQuestions = gameContent.phases[4].questions;
+            const indexToRemove = phaseQuestions.findIndex(q => q.question === questionText);
+
+            if (indexToRemove !== -1) {
+                gameContent.phases[4].questions.splice(indexToRemove, 1);
+                saveContent();
+                loadContent();
+            }
+        });
     }
 
     // --- Funções do Timer ---
@@ -278,47 +315,88 @@ document.addEventListener('DOMContentLoaded', () => {
         const phase = gameContent.phases[currentPhase];
         let threshold;
 
-        // PRIORIZA O TEMPO DEFINIDO PELO PROFESSOR
         if (phase && phase.timeLimit !== null && !isNaN(phase.timeLimit)) {
             threshold = phase.timeLimit;
-        } else if (phase && phase.content) { // Fallback para cálculo automático
-            if (phase.content.split(' ').length <= 1) {
+        } else if (phase && phase.content) {
+            const words = phase.content.split(/\s+/).filter(word => word.length > 0);
+            if (words.length <= 1) {
                 threshold = phase.content.length * TIME_THRESHOLD_PER_CHAR;
             } else {
-                threshold = phase.content.split(/\s+/).filter(word => word.length > 0).length * TIME_THRESHOLD_PER_WORD;
+                threshold = words.length * TIME_THRESHOLD_PER_WORD;
             }
         } else {
-            // Caso a fase ou o conteúdo não existam (erro, mas para evitar travar)
-            threshold = 10; // Valor padrão para evitar NaN
+            threshold = 10;
         }
 
-        if (threshold - seconds <= 5 && threshold - seconds > 0 && seconds !== lastSecondPlayedBeep && timerBeep && timerBeep.canPlayType('audio/mpeg')) {
+        if (
+            threshold - seconds <= 5 &&
+            threshold - seconds > 0 &&
+            seconds !== lastSecondPlayedBeep &&
+            timerBeep &&
+            timerBeep.src
+        ) {
             timerBeep.currentTime = 0;
-            timerBeep.play().catch(e => console.warn("Erro ao tocar beep: ", e)); // Adiciona catch para promessa
+            timerBeep.play().catch(e => console.warn("Erro ao tocar beep:", e));
             lastSecondPlayedBeep = seconds;
         }
     }
 
-    // --- Lógica das Fases de Leitura ---
+    // --- Funções de Interface ---
+    function hideAllSections() {
+        const sections = [
+            nameInputSection,
+            instructionsSection,
+            gameplaySection,
+            comprehensionSection,
+            creativeWritingSection,
+            resultsSection,
+            adminSection
+        ];
+        sections.forEach(section => section.classList.add('hidden'));
+        feedbackModal.classList.add('hidden');
+    }
+
+    function showFeedbackModal(message, showRetry, showExplanation, showContinue, showIconSuccess) {
+        feedbackModal.classList.remove('hidden');
+        feedbackMessage.textContent = message;
+        feedbackMessage.classList.remove('hidden');
+        retryPhaseButton.classList.toggle('hidden', !showRetry);
+        showExplanationButton.classList.toggle('hidden', !showExplanation);
+        continueGameButton.classList.toggle('hidden', !showContinue);
+        closeFeedbackModalButton.classList.toggle('hidden', showRetry || showExplanation || showContinue);
+        explanationText.classList.add('hidden');
+        closeFinalResultsModalButton.classList.add('hidden');
+        finalMotivationMessagePara.classList.add('hidden');
+        modalIcon.classList.toggle('hidden', !showIconSuccess);
+        modalIcon.textContent = showIconSuccess ? '🎉' : '';
+        modalIcon.classList.toggle('success-icon', showIconSuccess);
+        rocketAnimationContainer.classList.add('hidden');
+        animatedMessage.classList.add('hidden');
+    }
+
+    // --- Lógica das Fases do Jogo ---
     function showPhase(phaseIndex) {
         hideAllSections();
-        gameplaySection.classList.remove('hidden');
 
-        // Adiciona verificação para garantir que a fase existe
         if (phaseIndex >= gameContent.phases.length || !gameContent.phases[phaseIndex]) {
             console.error("Tentativa de exibir uma fase que não existe:", phaseIndex);
-            // Redireciona para os resultados finais ou volta para o admin
-            showFinalResults(0); // Passa 0 acertos ou um valor adequado para erro
+            showFinalResults(0);
             return;
         }
 
         const phase = gameContent.phases[phaseIndex];
-        readingContent.innerHTML = `<p class="content-to-read">${phase.content}</p>`;
-        timerDisplay.textContent = '00:00';
 
-        finishReadingButton.classList.remove('hidden');
-
-        startTimer();
+        if (phase.type === 'reading') {
+            gameplaySection.classList.remove('hidden');
+            readingContent.innerHTML = `<p class="content-to-read">${phase.content}</p>`;
+            timerDisplay.textContent = '00:00';
+            finishReadingButton.classList.remove('hidden');
+            startTimer();
+        } else if (phase.type === 'comprehension') {
+            displayComprehensionPhase();
+        } else if (phase.type === 'creativeWriting') {
+            displayCreativeWritingPhase();
+        }
     }
 
     function handleFinishReading() {
@@ -326,17 +404,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const phase = gameContent.phases[currentPhase];
 
         let threshold;
-        // PRIORIZA O TEMPO DEFINIDO PELO PROFESSOR
         if (phase && phase.timeLimit !== null && !isNaN(phase.timeLimit)) {
             threshold = phase.timeLimit;
-        } else if (phase && phase.content) { // Fallback para cálculo automático
-            if (phase.content.split(' ').length <= 1) {
+        } else if (phase && phase.content) {
+            const words = phase.content.split(/\s+/).filter(word => word.length > 0);
+            if (words.length <= 1) {
                 threshold = phase.content.length * TIME_THRESHOLD_PER_CHAR;
             } else {
-                threshold = phase.content.split(/\s+/).filter(word => word.length > 0).length * TIME_THRESHOLD_PER_WORD;
+                threshold = words.length * TIME_THRESHOLD_PER_WORD;
             }
         } else {
-            threshold = 10; // Valor padrão para evitar NaN
+            threshold = 10;
         }
 
         if (readingTimes.length > currentPhase) {
@@ -348,33 +426,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (timeTaken > threshold) {
             showFeedbackModal(
                 `Parece que você levou um pouco mais de tempo nesta fase (${timeTaken.toFixed(1)}s). O tempo ideal seria de ${threshold.toFixed(1)}s. Que tal tentar novamente para praticar mais um pouco?`,
-                true, // showRetry
-                true, // showExplanation
-                false, // showContinue
-                false // isComprehensionPhase
+                true,
+                true,
+                false,
+                false
             );
         } else {
             showFeedbackModal(
                 `Muito bem! Você leu esta fase em ${timeTaken.toFixed(1)} segundos. Continue assim!`,
-                false, // showRetry
-                false, // showExplanation
-                true, // showContinue
-                false // isComprehensionPhase
+                false,
+                false,
+                true,
+                true
             );
         }
     }
 
-    // --- Lógica da Fase de Interpretação ---
     function displayComprehensionPhase() {
         hideAllSections();
         comprehensionSection.classList.remove('hidden');
 
-        // Sempre referencie a fase de compreensão como a última fase
-        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 1];
+        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 2];
 
         if (!comprehensionPhase || !comprehensionPhase.questions) {
             console.error("Fase de compreensão ou suas perguntas não estão definidas.");
-            showFinalResults(0); // Se a fase de compreensão não existe, vá para os resultados finais com 0 acertos
+            showFinalResults(0);
             return;
         }
 
@@ -395,12 +471,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function calculateResults() {
         let correctAnswersCount = 0;
-        // SEMPRE pegue a fase de compreensão como a ÚLTIMA no array
-        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 1];
+        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 2];
 
         if (!comprehensionPhase || !comprehensionPhase.questions) {
             console.error("Fase de compreensão ou suas perguntas não estão definidas ao calcular resultados.");
-            showFinalResults(0); // Trata o erro e vai para o final
+            showFinalResults(0);
             return;
         }
 
@@ -422,54 +497,170 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Se acertou todas, vai direto para os resultados finais
         if (correctAnswersCount === comprehensionPhase.questions.length && comprehensionPhase.questions.length > 0) {
-            showFinalResults(correctAnswersCount);
+            showFeedbackModal(
+                `Fantástico! Você acertou todas as perguntas de interpretação! Agora, para o próximo desafio.`,
+                false,
+                false,
+                true,
+                true
+            );
         } else {
-            // Caso contrário, mostra o modal de feedback de fase
             showFeedbackModal(
                 `Você acertou ${correctAnswersCount} de ${comprehensionPhase.questions.length} perguntas. Que tal rever o texto e tentar de novo para melhorar sua compreensão?`,
-                true, // showRetry
-                true, // showExplanation
-                false, // showContinue
-                true // isComprehensionPhase
+                true,
+                true,
+                false,
+                true
             );
         }
     }
 
-    // --- Lógica dos Resultados Finais e Estrelas ---
+    function displayCreativeWritingPhase() {
+        hideAllSections();
+        creativeWritingSection.classList.remove('hidden');
+
+        const creativeWritingPhase = gameContent.phases[gameContent.phases.length - 1];
+        baseFableContentDiv.textContent = creativeWritingPhase.baseFable;
+        studentWritingArea.value = studentFableText;
+        updateLineCount();
+    }
+
+    function updateLineCount() {
+        const text = studentWritingArea.value;
+        const lines = text.split('\n').filter(line => line.trim() !== '').length;
+
+        const minLines = gameContent.phases[gameContent.phases.length - 1].minLines;
+        lineCountDisplay.textContent = `Linhas: ${lines}/${minLines}`;
+        lineCountDisplay.style.color = lines >= minLines ? 'green' : 'red';
+    }
+
+    function handleSubmitWriting() {
+        studentFableText = studentWritingArea.value.trim();
+        const lines = studentFableText.split('\n').filter(line => line.trim() !== '').length;
+        const minLines = gameContent.phases[gameContent.phases.length - 1].minLines;
+
+        if (lines >= minLines) {
+            startCelebration();
+        } else {
+            showFeedbackModal(
+                `Ops! Você precisa escrever pelo menos ${minLines} linhas para completar este desafio. Continue sua história!`,
+                true,
+                false,
+                false,
+                false
+            );
+        }
+    }
+
+    function startCelebration() {
+        hideAllSections();
+        feedbackModal.classList.remove('hidden');
+        feedbackModal.querySelector('.modal-content').classList.add('festive');
+
+        // Hide all modal elements
+        feedbackMessage.classList.add('hidden');
+        explanationText.classList.add('hidden');
+        retryPhaseButton.classList.add('hidden');
+        showExplanationButton.classList.add('hidden');
+        continueGameButton.classList.add('hidden');
+        closeFeedbackModalButton.classList.add('hidden');
+        closeFinalResultsModalButton.classList.add('hidden');
+        animatedMessage.classList.add('hidden');
+
+        // Show motivational message and icon
+        const correctAnswers = lastComprehensionCorrectStatus.filter(status => status).length;
+        const totalTime = readingTimes.reduce((sum, time) => sum + time, 0);
+        displayFinalMotivationMessage(totalTime, correctAnswers);
+        finalMotivationMessagePara.classList.remove('hidden');
+        finalMotivationMessagePara.classList.add('celebration');
+        modalIcon.classList.remove('hidden');
+        modalIcon.textContent = '🎉';
+        modalIcon.classList.add('success-icon');
+
+        // Start rocket animation
+        playRocketAnimation();
+
+        // Start confetti
+        const jsConfetti = new JSConfetti();
+        jsConfetti.addConfetti({
+            emojis: ['🎉', '⭐', '🚀', '✨'],
+            confettiRadius: 6,
+            confettiNumber: 100,
+        });
+
+        // Start falling stars
+        createFallingStars();
+
+        // Transition to results after 8 seconds
+        setTimeout(() => {
+            feedbackModal.classList.add('hidden');
+            feedbackModal.querySelector('.modal-content').classList.remove('festive');
+            starsContainer.innerHTML = ''; // Clear stars
+            showFinalResults(correctAnswers);
+        }, 8000);
+    }
+
+    function createFallingStars() {
+        starsContainer.innerHTML = '';
+        const emojis = ['⭐', '✨', '🎉'];
+        for (let i = 0; i < 20; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starsContainer.appendChild(star);
+        }
+    }
+
+    function playRocketAnimation() {
+        rocketAnimationContainer.classList.remove('hidden');
+        rocketAnimationContainer.style.animation = 'none';
+        void rocketAnimationContainer.offsetWidth; // Trigger reflow
+        rocketAnimationContainer.style.animation = 'flyRocket 8s forwards ease-in-out';
+    }
+
     function showFinalResults(correctAnswers) {
-        // SEMPRE pegue a fase de compreensão como a ÚLTIMA no array
-        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 1];
+        hideAllSections();
+        resultsSection.classList.remove('hidden');
+
+        rocketAnimationContainer.classList.add('hidden');
+        animatedMessage.classList.add('hidden');
+
+        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 2];
 
         if (!comprehensionPhase || !comprehensionPhase.questions) {
             console.error("Fase de compreensão ou suas perguntas não estão definidas ao exibir resultados finais.");
-            // Define valores padrão para evitar erros caso as perguntas não existam
-            totalTimePara.textContent = `Tempo total de leitura (Fases 1-${gameContent.phases.length - 1}): N/A`;
+            totalTimePara.textContent = `Tempo total de leitura (Fases 1-${gameContent.phases.length - 2}): N/A`;
             comprehensionResultPara.textContent = `Resultado da interpretação: N/A (erro na fase de perguntas)`;
-            displayStars(0, 0); // Sem estrelas em caso de erro
-            displayFinalMotivationMessage(0, 0); // Mensagem genérica de erro
-            showFinalMessageModal(); // Tenta mostrar o modal mesmo com erro
+            displayStars(0, 0);
+            displayFinalMotivationMessage(0, 0);
+            showFinalMessageModal();
             return;
         }
 
-        const totalReadingDuration = readingTimes.slice(0, gameContent.phases.length - 1).reduce((sum, time) => sum + time, 0);
+        const totalReadingDuration = readingTimes.reduce((sum, time, index) => {
+            if (gameContent.phases[index] && gameContent.phases[index].type === 'reading') {
+                return sum + time;
+            }
+            return sum;
+        }, 0);
+
         const minutes = Math.floor(totalReadingDuration / 60);
         const seconds = Math.floor(totalReadingDuration % 60);
-        totalTimePara.textContent = `Tempo total de leitura (Fases 1-${gameContent.phases.length - 1}): ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        totalTimePara.textContent = `Tempo total de leitura (Fases 1-${gameContent.phases.length - 2}): ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         comprehensionResultPara.textContent = `Você acertou ${correctAnswers} de ${comprehensionPhase.questions.length} perguntas de interpretação.`;
 
         displayStars(totalReadingDuration, correctAnswers);
         displayFinalMotivationMessage(totalReadingDuration, correctAnswers);
 
-        // Preencher o feedback detalhado de compreensão (visível apenas após fechar o modal)
         comprehensionFeedbackDiv.classList.remove('hidden');
         comprehensionFeedbackDiv.innerHTML = '<h3>Respostas de Interpretação:</h3>';
 
         comprehensionPhase.questions.forEach((q, index) => {
             const feedbackParagraph = document.createElement('p');
-            let feedbackText = `**Pergunta ${index + 1}:** ${q.question}<br>`;
-            // Garante que lastComprehensionCorrectStatus e lastComprehensionAnswers têm o índice correto
+            let feedbackText = `<strong>Pergunta ${index + 1}:</strong> ${q.question}<br>`;
             const isCorrect = lastComprehensionCorrectStatus[index] !== undefined ? lastComprehensionCorrectStatus[index] : false;
             const userAnswer = lastComprehensionAnswers[index] !== undefined ? lastComprehensionAnswers[index] : '';
 
@@ -484,7 +675,23 @@ document.addEventListener('DOMContentLoaded', () => {
             comprehensionFeedbackDiv.appendChild(feedbackParagraph);
         });
 
-        // Agora, mostramos o modal para a mensagem final
+        const writingPhase = gameContent.phases[gameContent.phases.length - 1];
+        if (writingPhase && studentFableText) {
+            const existingFableFeedback = document.querySelector('.feedback-details.fable-feedback');
+            if (existingFableFeedback) {
+                existingFableFeedback.remove();
+            }
+
+            const fableFeedbackDiv = document.createElement('div');
+            fableFeedbackDiv.classList.add('feedback-details', 'fable-feedback');
+            fableFeedbackDiv.innerHTML = '<h3>Sua Fábula Criativa:</h3>';
+            const fableParagraph = document.createElement('p');
+            fableParagraph.innerHTML = `"${studentFableText.replace(/\n/g, '<br>')}"`;
+            fableParagraph.style.whiteSpace = 'pre-wrap';
+            fableFeedbackDiv.appendChild(fableParagraph);
+            comprehensionFeedbackDiv.parentNode.insertBefore(fableFeedbackDiv, comprehensionFeedbackDiv.nextSibling);
+        }
+
         showFinalMessageModal();
     }
 
@@ -492,37 +699,47 @@ document.addEventListener('DOMContentLoaded', () => {
         let numStars = 0;
         let totalIdealReadingTime = 0;
 
-        gameContent.phases.slice(0, gameContent.phases.length - 1).forEach(phase => {
-            if (phase) { // Verifica se a fase existe
-                // PRIORIZA O TEMPO DEFINIDO PELO PROFESSOR para o cálculo de estrelas
+        gameContent.phases.forEach((phase) => {
+            if (phase && phase.type === 'reading') {
                 if (phase.timeLimit !== null && !isNaN(phase.timeLimit)) {
                     totalIdealReadingTime += phase.timeLimit;
-                } else if (phase.content) { // Fallback para cálculo automático
-                    if (phase.content.split(' ').length <= 1) {
+                } else if (phase.content) {
+                    const words = phase.content.split(/\s+/).filter(word => word.length > 0);
+                    if (words.length <= 1) {
                         totalIdealReadingTime += phase.content.length * TIME_THRESHOLD_PER_CHAR;
                     } else {
-                        totalIdealReadingTime += phase.content.split(/\s+/).filter(word => word.length > 0).length * TIME_THRESHOLD_PER_WORD;
+                        totalIdealReadingTime += words.length * TIME_THRESHOLD_PER_WORD;
                     }
                 }
             }
         });
 
-        if (totalTime <= totalIdealReadingTime * 1.0) {
-            numStars += 3;
-        } else if (totalTime <= totalIdealReadingTime * 1.5) {
-            numStars += 2;
-        } else if (totalTime <= totalIdealReadingTime * 2.0) {
-            numStars += 1;
+        if (totalIdealReadingTime > 0) {
+            if (totalTime <= totalIdealReadingTime * 1.0) {
+                numStars += 3;
+            } else if (totalTime <= totalIdealReadingTime * 1.5) {
+                numStars += 2;
+            } else if (totalTime <= totalIdealReadingTime * 2.0) {
+                numStars += 1;
+            }
         }
 
-        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 1];
-        const totalComprehensionQuestions = comprehensionPhase && comprehensionPhase.questions ? comprehensionPhase.questions.length : 0; // Adiciona verificação
+        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 2];
+        const totalComprehensionQuestions = comprehensionPhase && comprehensionPhase.questions ? comprehensionPhase.questions.length : 0;
 
         if (totalComprehensionQuestions > 0) {
             const percentageCorrect = correctAnswers / totalComprehensionQuestions;
             if (percentageCorrect >= 1) {
                 numStars += 2;
             } else if (percentageCorrect >= 0.5) {
+                numStars += 1;
+            }
+        }
+
+        const creativeWritingPhase = gameContent.phases[gameContent.phases.length - 1];
+        if (creativeWritingPhase && studentFableText) {
+            const lines = studentFableText.split('\n').filter(line => line.trim() !== '').length;
+            if (lines >= creativeWritingPhase.minLines) {
                 numStars += 1;
             }
         }
@@ -537,160 +754,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayFinalMotivationMessage(totalTime, correctAnswers) {
+        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 2];
+        const totalQuestions = comprehensionPhase && comprehensionPhase.questions ? comprehensionPhase.questions.length : 0;
         let message = '';
-        let messageClass = '';
-        let iconChar = ''; // Variável para o caractere do ícone
+        let isSuccess = false;
 
-        const comprehensionPhase = gameContent.phases[gameContent.phases.length - 1];
-        const totalComprehensionQuestions = comprehensionPhase && comprehensionPhase.questions ? comprehensionPhase.questions.length : 0; // Adiciona verificação
-        const percentageCorrect = totalComprehensionQuestions > 0 ? (correctAnswers / totalComprehensionQuestions) : 0;
-
-        let totalIdealReadingTime = 0;
-        gameContent.phases.slice(0, gameContent.phases.length - 1).forEach(phase => {
-            if (phase) { // Verifica se a fase existe
-                // PRIORIZA O TEMPO DEFINIDO PELO PROFESSOR para o cálculo da mensagem motivacional
-                if (phase.timeLimit !== null && !isNaN(phase.timeLimit)) {
-                    totalIdealReadingTime += phase.timeLimit;
-                } else if (phase.content) { // Fallback para cálculo automático
-                    if (phase.content.split(' ').length <= 1) {
-                        totalIdealReadingTime += phase.content.length * TIME_THRESHOLD_PER_CHAR;
-                    } else {
-                        totalIdealReadingTime += phase.content.split(/\s+/).filter(word => word.length > 0).length * TIME_THRESHOLD_PER_WORD;
-                    }
-                }
-            }
-        });
-
-        const isGoodTime = totalTime <= totalIdealReadingTime * 1.2;
-        const isGoodComprehension = percentageCorrect >= 0.8;
-
-        if (isGoodTime && isGoodComprehension) {
-            message = `Parabéns, ${studentName}! Você foi incrível! Sua leitura é rápida e sua compreensão é excelente. Continue brilhando! ✨`;
-            messageClass = 'success';
-            iconChar = '🎉'; // Ícone de vitória
-        } else if (isGoodTime && !isGoodComprehension) {
-            message = `Muito bem no tempo, ${studentName}! Sua leitura é ágil. Agora, vamos focar um pouco mais na interpretação. Revise o texto e tente entender cada detalhe. Você consegue! 💪`;
-            messageClass = 'motivation';
-            iconChar = '🧠'; // Ícone de inteligência/foco
-        } else if (!isGoodTime && isGoodComprehension) {
-            message = `Excelente interpretação, ${studentName}! Você entende muito bem o que lê. Para a próxima vez, tente focar na velocidade da leitura. Com um pouco mais de prática, você será um super leitor(a)! 🚀`;
-            messageClass = 'motivation';
-            iconChar = '⚡'; // Ícone de velocidade/energia
+        if (!comprehensionPhase || totalQuestions === 0) {
+            message = `${studentName}, você completou o jogo, mas parece que houve um problema com a fase de perguntas. Continue praticando!`;
+        } else if (correctAnswers === totalQuestions && totalTime <= 120) {
+            message = `${studentName}, você foi incrível! Acertou todas as perguntas e leu super rápido! Continue brilhando! 🌟`;
+            isSuccess = true;
+        } else if (correctAnswers >= totalQuestions * 0.5) {
+            message = `${studentName}, parabéns! Você acertou ${correctAnswers} de ${totalQuestions} perguntas e está melhorando sua leitura. Continue assim! 🚀`;
+            isSuccess = true;
         } else {
-            message = `Olá, ${studentName}! Que bom que você está praticando. Lembre-se que cada leitura é uma nova chance de aprender e melhorar. Continue se dedicando, um passo de cada vez, e você verá grandes progressos! A leitura é uma aventura, e você está no caminho certo. 📚`;
-            messageClass = 'motivation';
-            iconChar = '🌱'; // Ícone de crescimento/jornada
+            message = `${studentName}, você terminou o jogo! Acertou ${correctAnswers} de ${totalQuestions} perguntas. Que tal praticar mais para melhorar? 💪`;
         }
 
         finalMotivationMessagePara.textContent = message;
-        finalMotivationMessagePara.className = `final-message ${messageClass}`; // Adiciona a classe para estilização
-
-        modalIcon.textContent = iconChar; // Define o caractere do ícone
-        modalIcon.className = `modal-icon ${messageClass}-icon`; // Define a classe do ícone para estilização
-    }
-
-
-    function restartGame() {
-        currentPhase = 0;
-        readingTimes = [];
-        lastComprehensionAnswers = [];
-        lastComprehensionCorrectStatus = [];
-        starRatingDiv.textContent = '';
-        comprehensionFeedbackDiv.innerHTML = '';
-        finalMotivationMessagePara.textContent = '';
-        finalMotivationMessagePara.classList.add('hidden'); // Volta a esconder e remove classes de estilo
-        finalMotivationMessagePara.classList.remove('success', 'motivation'); // Garante a remoção das classes
-        modalIcon.textContent = ''; // Limpa o ícone
-        modalIcon.className = 'modal-icon'; // Limpa as classes do ícone
-
-        showAdminScreen(); // Volta para a tela do professor após reiniciar
-    }
-
-    // --- Funções do Modal de Feedback ---
-    function showFeedbackModal(message, showRetry, showExplanation, showContinue, isComprehensionPhase = false) {
-        hideAllSections(); // Garante que todas as outras seções estejam escondidas
-        feedbackModal.classList.remove('hidden');
-
-        // Garante que os elementos da mensagem final estejam escondidos
-        finalMotivationMessagePara.classList.add('hidden');
-        finalMotivationMessagePara.classList.remove('success', 'motivation');
-        modalIcon.classList.add('hidden');
-        modalIcon.textContent = ''; // Limpa o ícone
-
-        // Mostra a mensagem de feedback padrão
-        feedbackMessage.classList.remove('hidden');
-        feedbackMessage.textContent = message;
-        explanationText.classList.add('hidden'); // Esconde a explicação por padrão
-
-        retryPhaseButton.classList.toggle('hidden', !showRetry);
-        showExplanationButton.classList.toggle('hidden', !showExplanation);
-        continueGameButton.classList.toggle('hidden', !showContinue);
-        closeFinalResultsModalButton.classList.add('hidden'); // Certifica que o botão de fechar final está escondido
-
-        // Lógica específica para a fase de interpretação
-        if (isComprehensionPhase && (showRetry || showExplanation)) {
-            continueGameButton.classList.add('hidden');
-        }
-    }
-
-    // --- Funções para Navegação entre Seções ---
-    function hideAllSections() {
-        instructionsSection.classList.add('hidden');
-        gameplaySection.classList.add('hidden');
-        comprehensionSection.classList.add('hidden');
-        resultsSection.classList.add('hidden');
-        adminSection.classList.add('hidden');
-        nameInputSection.classList.add('hidden');
-        feedbackModal.classList.add('hidden');
-    }
-
-    function showNameInputScreen() {
-        hideAllSections();
-        nameInputSection.classList.remove('hidden');
-    }
-
-    function showInstructions() {
-        hideAllSections();
-        instructionsSection.classList.remove('hidden');
-        studentNameDisplay.textContent = `Olá, ${studentName}!`;
-    }
-
-    function showAdminScreen() {
-        hideAllSections();
-        adminSection.classList.remove('hidden');
-        loadContent(); // Carrega o conteúdo salvo ao entrar na área do professor
+        finalMotivationMessagePara.classList.toggle('success', isSuccess);
+        finalMotivationMessagePara.classList.toggle('motivation', !isSuccess);
     }
 
     function showFinalMessageModal() {
-        hideAllSections();
         feedbackModal.classList.remove('hidden');
-        // Esconde os botões de feedback de fase
+        feedbackMessage.classList.add('hidden');
+        explanationText.classList.add('hidden');
         retryPhaseButton.classList.add('hidden');
         showExplanationButton.classList.add('hidden');
         continueGameButton.classList.add('hidden');
-        feedbackMessage.classList.add('hidden'); // Esconde a mensagem de feedback normal
-        explanationText.classList.add('hidden'); // Esconde a explicação
-
-        // Mostra os elementos da mensagem final
+        closeFeedbackModalButton.classList.add('hidden');
+        closeFinalResultsModalButton.classList.remove('hidden');
         finalMotivationMessagePara.classList.remove('hidden');
         modalIcon.classList.remove('hidden');
-        closeFinalResultsModalButton.classList.remove('hidden'); // Mostra o botão para fechar o modal final
+        modalIcon.textContent = '🏆';
+        modalIcon.classList.add('motivation-icon');
+        rocketAnimationContainer.classList.add('hidden');
+        animatedMessage.classList.add('hidden');
     }
 
-
-    // --- Gerenciamento de Eventos ---
+    // --- Event Listeners ---
     submitNameButton.addEventListener('click', () => {
         studentName = studentNameInput.value.trim();
         if (studentName) {
-            showInstructions();
+            studentNameDisplay.textContent = `Olá, ${studentName}!`;
+            hideAllSections();
+            instructionsSection.classList.remove('hidden');
         } else {
-            alert('Por favor, digite seu nome para continuar.');
+            alert('Por favor, digite seu nome.');
         }
     });
 
     startButton.addEventListener('click', () => {
-        currentPhase = 0; // Inicia na primeira fase
-        readingTimes = []; // Zera os tempos de leitura
+        currentPhase = 0;
+        readingTimes = [];
+        studentFableText = '';
         showPhase(currentPhase);
     });
 
@@ -698,70 +816,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitAnswersButton.addEventListener('click', calculateResults);
 
-    restartButton.addEventListener('click', restartGame);
-
-    goToAdminButton.addEventListener('click', showAdminScreen); // Botão para ir para o admin
-
-    saveContentButton.addEventListener('click', saveContent);
-
-    addQuestionButton.addEventListener('click', addQuestionField);
-
-    startPlayForStudentButton.addEventListener('click', showInstructions); // Botão para voltar para o jogo do aluno
-
-    // Listeners para os botões do modal de feedback
     retryPhaseButton.addEventListener('click', () => {
         feedbackModal.classList.add('hidden');
         if (gameContent.phases[currentPhase].type === 'comprehension') {
-            displayComprehensionPhase(); // Reinicia a fase de compreensão
+            displayComprehensionPhase();
         } else {
-            showPhase(currentPhase); // Reinicia a fase de leitura atual
+            showPhase(currentPhase);
         }
     });
 
     showExplanationButton.addEventListener('click', () => {
-        const phase = gameContent.phases[currentPhase];
-        if (phase && phase.explanation) {
-            explanationText.textContent = phase.explanation;
-            explanationText.classList.remove('hidden');
-        }
+        explanationText.textContent = gameContent.phases[currentPhase].explanation;
+        explanationText.classList.remove('hidden');
+        showExplanationButton.classList.add('hidden');
     });
 
     continueGameButton.addEventListener('click', () => {
         feedbackModal.classList.add('hidden');
         currentPhase++;
-        if (currentPhase < gameContent.phases.length) {
-            if (gameContent.phases[currentPhase].type === 'reading') {
-                showPhase(currentPhase);
-            } else if (gameContent.phases[currentPhase].type === 'comprehension') {
-                displayComprehensionPhase();
-            }
-        } else {
-            showFinalResults(0); // Se não houver mais fases, mostre os resultados finais
-        }
+        showPhase(currentPhase);
     });
 
-    // Listener para o botão de fechar do modal final
+    closeFeedbackModalButton.addEventListener('click', () => {
+        feedbackModal.classList.add('hidden');
+    });
+
     closeFinalResultsModalButton.addEventListener('click', () => {
         feedbackModal.classList.add('hidden');
-        showResultsSection(); // Mostra a seção de resultados completa
     });
 
-    // Listener para o botão de fechar do modal de feedback (durante o jogo)
-    document.getElementById('closeFeedbackModalButton').addEventListener('click', () => {
-        feedbackModal.classList.add('hidden');
-        // Dependendo de onde você está, pode querer voltar para a fase ou ir para resultados/instruções
-        // Por enquanto, apenas esconde o modal. Pode ser necessário ajustar o fluxo aqui.
+    restartButton.addEventListener('click', () => {
+        hideAllSections();
+        nameInputSection.classList.remove('hidden');
+        studentNameInput.value = '';
+        studentName = '';
+        currentPhase = 0;
+        readingTimes = [];
+        lastComprehensionAnswers = [];
+        lastComprehensionCorrectStatus = [];
+        studentFableText = '';
     });
 
+    goToAdminButton.addEventListener('click', () => {
+        hideAllSections();
+        adminSection.classList.remove('hidden');
+        loadContent();
+    });
 
-    // Inicialização
-    loadContent(); // Carrega o conteúdo ao iniciar a página
-    showNameInputScreen(); // Inicia na tela de entrada do nome
+    saveContentButton.addEventListener('click', saveContent);
+
+    startPlayForStudentButton.addEventListener('click', () => {
+        hideAllSections();
+        nameInputSection.classList.remove('hidden');
+        studentNameInput.value = '';
+        studentName = '';
+        currentPhase = 0;
+        readingTimes = [];
+        lastComprehensionAnswers = [];
+        lastComprehensionCorrectStatus = [];
+        studentFableText = '';
+    });
+
+    addQuestionButton.addEventListener('click', addQuestionField);
+
+    studentWritingArea.addEventListener('input', updateLineCount);
+
+    submitWritingButton.addEventListener('click', handleSubmitWriting);
+
+    // --- Inicialização ---
+    loadContent();
+    hideAllSections();
+    nameInputSection.classList.remove('hidden');
 });
 
-
-// Funções auxiliares para mostrar/esconder seções
-// (Mantenha as que você já tinha ou adicione estas)
-function showResultsSection() {
-    document.getElementById('results').classList.remove('hidden');
-}

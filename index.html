@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fluência Leitora</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@0.12.0/dist/js-confetti.browser.js"></script>
+</head>
 <body>
-
     <section id="nameInputSection" class="section-container">
         <h2>Bem-vindo(a) ao Jogo de Fluência Leitora!</h2>
         <p>Por favor, digite seu nome para começar:</p>
@@ -15,9 +17,10 @@
     </section>
 
     <section id="instructions" class="section-container hidden">
-        <h2 id="studentNameDisplay"></h2> <p>Este jogo vai te ajudar a ler mais rápido e com mais compreensão!</p>
-        <p>Você passará por algumas fases de leitura e uma fase de perguntas.</p>
-        <p>Tente ler cada texto no seu ritmo, mas buscando sempre melhorar.</p>
+        <h2 id="studentNameDisplay"></h2>
+        <p>Este jogo vai te ajudar a ler mais rápido e com mais compreensão!</p>
+        <p>Você passará por algumas fases de leitura, uma fase de perguntas e um desafio de escrita criativa.</p>
+        <p>Tente ler cada texto no seu ritmo, mas buscando sempre melhorar. No final, você vai se divertir criando sua própria história!</p>
         <button id="startButton" class="btn">Começar o Jogo</button>
         <button id="goToAdminButton" class="btn admin-btn">Área do Professor</button>
     </section>
@@ -25,18 +28,29 @@
     <section id="gameplay" class="section-container hidden">
         <p class="timer-label">Tempo: <span id="timer">00:00</span></p>
         <div id="readingContent" class="content-display">
-            </div>
+        </div>
         <button id="finishReadingButton" class="btn">Terminei de Ler!</button>
-        <audio id="timerBeep" src="timer_beep.mp3" preload="auto"></audio> </section>
+        <audio id="timerBeep" src="timer_beep.mp3" preload="auto"></audio>
+    </section>
 
     <section id="comprehension" class="section-container hidden">
         <h2>Fase de Interpretação</h2>
-        <p>Leia o texto abaixo e responda às perguntas com atenção. Suas respostas devem ser **exatas**!</p>
+        <p>Leia o texto abaixo e responda às perguntas com atenção. Suas respostas devem ser <b>exatas</b>!</p>
         <div id="comprehensionText" class="content-display">
-            </div>
+        </div>
         <div id="questionsContainer" class="questions-container">
-            </div>
+        </div>
         <button id="submitAnswersButton" class="btn">Enviar Respostas</button>
+    </section>
+
+    <section id="creativeWriting" class="section-container hidden">
+        <h2>Fase de Escrita Criativa</h2>
+        <p id="writingInstructions">Leia a fábula ou parte dela e continue a história, modificando-a como quiser! Tente escrever pelo menos 20 linhas.</p>
+        <div id="baseFableContent" class="content-display">
+        </div>
+        <textarea id="studentWritingArea" placeholder="Comece a escrever sua fábula modificada aqui..." rows="10"></textarea>
+        <p id="lineCountDisplay">Linhas: 0/20</p>
+        <button id="submitWritingButton" class="btn">Enviar Minha Fábula</button>
     </section>
 
     <section id="results" class="section-container hidden">
@@ -50,7 +64,7 @@
 
     <div id="feedbackModal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-button" id="closeFeedbackModalButton">&times;</span>
+            <span class="close-button" id="closeFeedbackModalButton">×</span>
             <p id="feedbackMessage"></p>
             <p id="explanationText" class="hidden explanation"></p>
             <button id="retryPhaseButton" class="btn">Tentar Novamente</button>
@@ -61,9 +75,14 @@
                 <span id="modalIcon" class="modal-icon"></span>
                 <p id="finalMotivationMessage" class="final-message hidden"></p>
             </div>
+            <div id="rocketAnimationContainer" class="rocket-container hidden">
+                <div class="rocket"></div>
+                <div class="flame"></div>
+            </div>
+            <div id="stars-container"></div>
+            <p id="animatedMessage" class="animated-text hidden"></p>
         </div>
     </div>
-
 
     <section id="adminSection" class="section-container hidden">
         <h2>Área do Professor</h2>
@@ -118,8 +137,18 @@
 
             <h4>Perguntas de Interpretação:</h4>
             <div id="adminQuestionsContainer">
-                </div>
+            </div>
             <button id="addQuestionButton" class="btn">Adicionar Pergunta</button>
+        </div>
+
+        <div class="admin-phase-editor">
+            <h3>Fase 5: Fábula Criativa</h3>
+            <label for="fableBaseText">Fábula Base para o Aluno Continuar:</label>
+            <textarea id="fableBaseText">Era uma vez em uma floresta mágica, vivia um coelho muito esperto chamado Saltitante. Ele adorava cenouras e passava o dia explorando. Um dia, Saltitante encontrou uma porta secreta escondida entre as árvores...</textarea>
+            <label for="fableExplanation">Instruções para o aluno:</label>
+            <textarea id="fableExplanation">Agora é sua vez de ser um escritor! Leia a fábula e continue a história, inventando o que acontece depois. Use sua imaginação e crie um final divertido e original!</textarea>
+            <label for="minWritingLines">Mínimo de Linhas para a Fábula:</label>
+            <input type="number" id="minWritingLines" min="1" value="20">
         </div>
 
         <button id="saveContentButton" class="btn">Salvar Conteúdo</button>
@@ -127,5 +156,7 @@
         <button id="startPlayForStudentButton" class="btn">Voltar para o Jogo do Aluno</button>
     </section>
 
-    <script src="script.js"></script> </body>
+    <script src="script.js"></script>
+</body>
 </html>
+
