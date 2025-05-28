@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluência Leitora</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+
+    <section id="nameInputSection" class="section-container">
+        <h2>Bem-vindo(a) ao Jogo de Fluência Leitora!</h2>
+        <p>Por favor, digite seu nome para começar:</p>
+        <input type="text" id="studentNameInput" placeholder="Seu nome">
+        <button id="submitNameButton" class="btn">Entrar</button>
+    </section>
+
+    <section id="instructions" class="section-container hidden">
+        <h2 id="studentNameDisplay"></h2> <p>Este jogo vai te ajudar a ler mais rápido e com mais compreensão!</p>
+        <p>Você passará por algumas fases de leitura e uma fase de perguntas.</p>
+        <p>Tente ler cada texto no seu ritmo, mas buscando sempre melhorar.</p>
+        <button id="startButton" class="btn">Começar o Jogo</button>
+        <button id="goToAdminButton" class="btn admin-btn">Área do Professor</button>
+    </section>
+
+    <section id="gameplay" class="section-container hidden">
+        <p class="timer-label">Tempo: <span id="timer">00:00</span></p>
+        <div id="readingContent" class="content-display">
+            </div>
+        <button id="finishReadingButton" class="btn">Terminei de Ler!</button>
+        <audio id="timerBeep" src="timer_beep.mp3" preload="auto"></audio> </section>
+
+    <section id="comprehension" class="section-container hidden">
+        <h2>Fase de Interpretação</h2>
+        <p>Leia o texto abaixo e responda às perguntas com atenção. Suas respostas devem ser **exatas**!</p>
+        <div id="comprehensionText" class="content-display">
+            </div>
+        <div id="questionsContainer" class="questions-container">
+            </div>
+        <button id="submitAnswersButton" class="btn">Enviar Respostas</button>
+    </section>
+
+    <section id="results" class="section-container hidden">
+        <h2>Resultados Finais</h2>
+        <p id="totalTime"></p>
+        <p id="comprehensionResult"></p>
+        <div id="starRating" class="star-rating"></div>
+        <div id="comprehensionFeedback" class="hidden feedback-details"></div>
+        <button id="restartButton" class="btn">Reiniciar Jogo</button>
+    </section>
+
+    <div id="feedbackModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button" id="closeFeedbackModalButton">&times;</span>
+            <p id="feedbackMessage"></p>
+            <p id="explanationText" class="hidden explanation"></p>
+            <button id="retryPhaseButton" class="btn">Tentar Novamente</button>
+            <button id="showExplanationButton" class="btn">Ver Explicação</button>
+            <button id="continueGameButton" class="btn">Continuar</button>
+            <button id="closeFinalResultsModalButton" class="btn hidden">Fechar Resultados</button>
+            <div class="final-message-container">
+                <span id="modalIcon" class="modal-icon"></span>
+                <p id="finalMotivationMessage" class="final-message hidden"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="adminSection" class="section-container hidden">
+        <h2>Área do Professor</h2>
+        <p>Edite o conteúdo e as explicações das fases aqui.</p>
+
+        <div class="admin-phase-editor">
+            <h3>Fase 1: Palavra Curta</h3>
+            <label for="phase1Content">Conteúdo (uma palavra):</label>
+            <input type="text" id="phase1Content" value="gato">
+            <label for="phase1Explanation">Explicação para o aluno:</label>
+            <textarea id="phase1Explanation">Esta fase é para praticar a leitura de palavras curtas. Tente identificar todas as letras para ler a palavra.</textarea>
+            <label for="phase1TimeLimit">Tempo Limite (segundos, opcional):</label>
+            <input type="number" id="phase1TimeLimit" min="1" placeholder="Ex: 5">
+        </div>
+
+        <div class="admin-phase-editor">
+            <h3>Fase 2: Pequena Frase</h3>
+            <label for="phase2Content">Conteúdo (frase curta):</label>
+            <input type="text" id="phase2Content" value="Casa azul grande">
+            <label for="phase2Explanation">Explicação para o aluno:</label>
+            <textarea id="phase2Explanation">Aqui, você pratica a leitura de pequenas frases. Tente ler as palavras em sequência, sem interrupções.</textarea>
+            <label for="phase2TimeLimit">Tempo Limite (segundos, opcional):</label>
+            <input type="number" id="phase2TimeLimit" min="1" placeholder="Ex: 10">
+        </div>
+
+        <div class="admin-phase-editor">
+            <h3>Fase 3: Texto Curto</h3>
+            <label for="phase3Content">Conteúdo (texto curto):</label>
+            <textarea id="phase3Content">O sol brilha no céu. Os pássaros cantam alegremente pela manhã.</textarea>
+            <label for="phase3Explanation">Explicação para o aluno:</label>
+            <textarea id="phase3Explanation">Nesta fase, o objetivo é ler um texto curto de forma fluida. Preste atenção à pontuação.</textarea>
+            <label for="phase3TimeLimit">Tempo Limite (segundos, opcional):</label>
+            <input type="number" id="phase3TimeLimit" min="1" placeholder="Ex: 20">
+        </div>
+
+        <div class="admin-phase-editor">
+            <h3>Fase 4: Texto Médio</h3>
+            <label for="phase4Content">Conteúdo (texto médio):</label>
+            <textarea id="phase4Content">A borboleta colorida voava entre as flores do jardim, procurando por néctar doce. Ela tinha asas com tons de azul e amarelo, muito bonitas.</textarea>
+            <label for="phase4Explanation">Explicação para o aluno:</label>
+            <textarea id="phase4Explanation">Este texto é um pouco mais longo. Tente manter a velocidade de leitura e a compreensão do que está acontecendo na história.</textarea>
+            <label for="phase4TimeLimit">Tempo Limite (segundos, opcional):</label>
+            <input type="number" id="phase4TimeLimit" min="1" placeholder="Ex: 30">
+        </div>
+
+        <div class="admin-phase-editor">
+            <h3>Fase de Compreensão</h3>
+            <label for="comprehensionMainText">Texto Principal da Interpretação:</label>
+            <textarea id="comprehensionMainText">Era uma vez uma pequena coruja que adorava ler livros. Ela passava suas noites na biblioteca da floresta, aprendendo sobre estrelas e rios. Um dia, ela encontrou um mapa antigo que mostrava o caminho para uma árvore mágica de sabedoria.</textarea>
+            <label for="comprehensionExplanation">Explicação para o aluno (Interpretação):</label>
+            <textarea id="comprehensionExplanation">Nesta fase, o importante é ler o texto com atenção para entender bem a história. As perguntas testam o quanto você conseguiu absorver da leitura. Lembre-se que as respostas precisam ser exatas!</textarea>
+
+            <h4>Perguntas de Interpretação:</h4>
+            <div id="adminQuestionsContainer">
+                </div>
+            <button id="addQuestionButton" class="btn">Adicionar Pergunta</button>
+        </div>
+
+        <button id="saveContentButton" class="btn">Salvar Conteúdo</button>
+        <span id="saveMessage" class="save-message"></span>
+        <button id="startPlayForStudentButton" class="btn">Voltar para o Jogo do Aluno</button>
+    </section>
+
+    <script src="script.js"></script> </body>
+</html>
+
+

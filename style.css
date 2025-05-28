@@ -1,0 +1,567 @@
+/* Estilos gerais para o corpo do documento */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.3em; /* AUMENTADO: Tamanho da fonte base para todo o site */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f8ff; /* Light blue background */
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333; /* Cor de texto padrão para melhor legibilidade */
+}
+
+/* Container principal do jogo */
+.section-container { /* Renomeei de .game-container para .section-container, como no HTML fornecido anteriormente */
+    background-color: #ffffff;
+    border-radius: 20px; /* Borda mais arredondada */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Sombra mais suave */
+    padding: 40px; /* Mais padding interno */
+    text-align: center;
+    max-width: 900px; /* Aumentei a largura máxima para acomodar textos maiores */
+    width: 100%;
+    position: relative;
+    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
+}
+
+/* Título principal do jogo (se houver, como H1) */
+h1 {
+    color: #4CAF50; /* Green */
+    margin-bottom: 30px;
+    font-size: 3em; /* AUMENTADO: Título principal bem grande */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Sombra para o texto */
+}
+
+/* Títulos das seções (Bem-vindo(a), Área do Professor, etc.) */
+h2 {
+    color: #2196F3; /* Blue */
+    margin-top: 25px;
+    margin-bottom: 20px;
+    font-size: 2.5em; /* AUMENTADO: Títulos de seção maiores */
+    font-weight: bold;
+}
+
+/* Títulos menores (Fase 1, Fase de Compreensão, etc. na área do professor) */
+h3 {
+    color: #424242;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 2em; /* AUMENTADO: Títulos de subseção maiores */
+    border-bottom: 2px solid #eee; /* Linha de separação suave */
+    padding-bottom: 10px;
+}
+
+/* Ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* Botões gerais */
+.btn { /* Renomeado de 'button' para '.btn' para ser mais específico e evitar conflitos */
+    background-color: #008CBA; /* Blue */
+    color: white;
+    padding: 15px 30px; /* AUMENTADO: Botões maiores e mais fáceis de clicar */
+    border: none;
+    border-radius: 10px; /* Mais arredondado */
+    cursor: pointer;
+    font-size: 1.5em; /* AUMENTADO: Texto do botão maior */
+    margin: 12px; /* Espaçamento entre botões */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra para o botão */
+}
+
+.btn:hover {
+    background-color: #005f7c;
+    transform: translateY(-3px); /* Efeito de elevação maior */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Estilos específicos de botões */
+#startButton {
+    background-color: #4CAF50; /* Green */
+}
+
+#startButton:hover {
+    background-color: #45a049;
+}
+
+#finishReadingButton, #submitAnswersButton {
+    background-color: #f44336; /* Red */
+}
+
+#finishReadingButton:hover, #submitAnswersButton:hover {
+    background-color: #da190b;
+}
+
+/* Não existe #nextPhaseButton no JS atual, substituí por #continueGameButton */
+#continueGameButton {
+    background-color: #ff9800; /* Orange */
+}
+
+#continueGameButton:hover {
+    background-color: #e68a00;
+}
+
+#restartButton {
+    background-color: #673AB7; /* Deep Purple */
+}
+
+#restartButton:hover {
+    background-color: #512da8;
+}
+
+#saveContentButton {
+    background-color: #8BC34A; /* Light Green */
+}
+
+#saveContentButton:hover {
+    background-color: #689F38;
+}
+
+#retryPhaseButton {
+    background-color: #2196F3; /* Blue */
+}
+
+#retryPhaseButton:hover {
+    background-color: #0d8bf2;
+}
+
+#showExplanationButton {
+    background-color: #9C27B0; /* Purple */
+}
+
+#showExplanationButton:hover {
+    background-color: #7b1fa2;
+}
+
+#startPlayForStudentButton {
+    background-color: #1976D2; /* Azul mais escuro */
+    margin-top: 25px;
+    padding: 18px 35px; /* Botão ainda maior */
+    font-size: 1.6em; /* Texto maior */
+}
+
+#startPlayForStudentButton:hover {
+    background-color: #1565C0;
+}
+
+#addQuestionButton {
+    background-color: #4CAF50;
+    margin-top: 20px; /* Mais espaço acima */
+}
+
+#addQuestionButton:hover {
+    background-color: #45a049;
+}
+
+#closeFinalResultsModalButton {
+    background-color: #4CAF50; /* Green */
+    margin-top: 25px;
+    padding: 18px 35px; /* Botão ainda maior */
+    font-size: 1.6em; /* Texto maior */
+}
+
+#closeFinalResultsModalButton:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para o timer */
+.timer-label {
+    font-size: 1.6em; /* AUMENTADO: Texto "Tempo:" maior */
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+#timer {
+    font-size: 3.5em; /* AUMENTADO: O display do tempo em si bem grande */
+    font-weight: bold;
+    color: #e74c3c; /* Vermelho vibrante */
+    background-color: #ffebee; /* Fundo levemente avermelhado */
+    padding: 15px 30px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(231,76,60,0.2);
+    letter-spacing: 2px; /* Espaçamento entre os dígitos */
+}
+
+/* Estilos para o conteúdo de leitura (fases de leitura) */
+#readingContent .content-to-read {
+    font-size: 4em; /* AUMENTADO: Texto principal da leitura ENORME para crianças */
+    line-height: 1.4; /* Espaçamento entre linhas confortável */
+    font-weight: bold;
+    color: #34495e; /* Azul escuro quase preto */
+    text-align: center;
+    margin: 60px 0; /* Mais espaço vertical */
+    padding: 20px; /* Padding interno para o texto */
+    background-color: #e8f5e9; /* Light green background */
+    border-radius: 15px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    border: 2px solid #a5d6a7; /* Borda sutil */
+    min-height: 150px; /* Altura mínima para não ficar muito pequeno */
+    display: flex; /* Para centralizar verticalmente se o texto for curto */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo para o texto principal da interpretação */
+#comprehensionText { /* Ajustei para o ID usado no HTML */
+    font-size: 1.8em; /* AUMENTADO: Texto de compreensão maior */
+    line-height: 1.7; /* Bom espaçamento para leitura */
+    background-color: #ffe0b2; /* Um tom de laranja mais claro */
+    padding: 30px; /* Mais padding */
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: left;
+    color: #333;
+    border: 2px dashed #ffb74d; /* Borda pontilhada divertida */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.questions-container { /* Adicionado para envolver o container de perguntas */
+    margin-top: 30px;
+}
+
+.question-block {
+    margin-bottom: 25px; /* Mais espaço entre as perguntas */
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.question-block p {
+    font-size: 1.5em; /* AUMENTADO: Perguntas individuais maiores */
+    margin-bottom: 12px;
+    color: #555;
+    font-weight: bold;
+}
+
+.question-block input[type="text"] {
+    width: calc(100% - 24px); /* Ajuste para padding e borda */
+    padding: 15px; /* AUMENTADO: Inputs maiores */
+    font-size: 1.3em; /* AUMENTADO: Texto de input maior */
+    border: 2px solid #ccc; /* Borda mais visível */
+    border-radius: 8px; /* Mais arredondado */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.question-block input[type="text"]:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(33,150,243,0.3); /* Sombra azul ao focar */
+}
+
+/* Resultados finais */
+#totalTime, #comprehensionResult {
+    font-size: 1.6em; /* AUMENTADO: Textos de resultado maiores */
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    background-color: #e3f2fd; /* Fundo suave */
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.star-rating {
+    font-size: 3.5em; /* AUMENTADO: Estrelas GIGANTES! */
+    color: #FFD700; /* Cor ouro */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    letter-spacing: 8px; /* Mais espaçamento entre as estrelas */
+    animation: bounceIn 0.8s ease-out; /* Animação de entrada */
+}
+
+/* Animação para as estrelas */
+@keyframes bounceIn {
+    0% { transform: scale(0.1); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+
+/* Feedback detalhado de compreensão */
+#comprehensionFeedback h3 {
+    font-size: 2em; /* AUMENTADO: Título do feedback detalhado */
+    margin-top: 35px;
+    margin-bottom: 20px;
+    color: #0056b3;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.feedback-item {
+    font-size: 1.3em; /* AUMENTADO: Itens individuais de feedback */
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.feedback-item .correct {
+    color: #2e7d32; /* Verde escuro */
+    font-weight: bold;
+}
+
+.feedback-item .incorrect {
+    color: #c62828; /* Vermelho escuro */
+    font-weight: bold;
+}
+
+/* Seção de Administração (Professor) */
+#adminSection {
+    background-color: #e3f2fd; /* Light blue */
+    border: 2px solid #90caf9; /* Borda mais visível */
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.admin-phase-editor {
+    margin-bottom: 30px; /* Mais espaço entre editores de fase */
+    text-align: left;
+    background-color: #fefefe;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.admin-phase-editor label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px; /* Mais espaço */
+    margin-top: 15px; /* Espaço antes da label */
+    color: #3f51b5; /* Indigo */
+    font-size: 1.2em; /* AUMENTADO: Labels maiores */
+}
+
+.admin-phase-editor input[type="text"],
+.admin-phase-editor input[type="number"], /* Adicionado input type number */
+.admin-phase-editor textarea {
+    width: calc(100% - 28px); /* Ajuste para padding e borda */
+    padding: 12px; /* AUMENTADO: Inputs e textareas maiores */
+    border: 2px solid #bbdefb;
+    border-radius: 8px;
+    font-size: 1.1em; /* AUMENTADO: Texto em inputs maior */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-phase-editor textarea {
+    min-height: 100px; /* Altura mínima maior */
+    resize: vertical;
+}
+
+.admin-phase-editor input[type="text"]:focus,
+.admin-phase-editor input[type="number"]:focus,
+.admin-phase-editor textarea:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(33,150,243,0.3);
+}
+
+.save-message {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.4em; /* Mensagem de salvar maior */
+}
+
+/* Estilos do Modal */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo mais escuro para o modal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 40px; /* Mais padding */
+    border-radius: 20px; /* Mais arredondado */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    text-align: center;
+    max-width: 600px; /* Largura maior */
+    width: 90%;
+    position: relative;
+    animation: fadeIn 0.4s ease-out; /* Animação de entrada para o modal */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content p {
+    font-size: 1.8em; /* AUMENTADO: Mensagem principal do modal bem grande */
+    margin-bottom: 25px;
+    color: #333;
+    line-height: 1.5;
+}
+
+#explanationText {
+    background-color: #e0f7fa;
+    border: 2px solid #b2ebf2;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 1.4em; /* AUMENTADO: Explicação maior */
+    line-height: 1.6;
+    margin-top: 30px;
+    color: #006064;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.modal-content .btn { /* Ajustar botões dentro do modal */
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1.4em; /* AUMENTADO: Botões do modal maiores */
+}
+
+/* Linha separadora */
+hr {
+    border: 0;
+    height: 2px; /* Mais espessa */
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); /* Mais escura */
+    margin: 40px 0; /* Mais espaço */
+}
+
+/* NOVO ESTILO PARA O CAMPO DE NOME */
+#studentNameInput { /* Usando o ID do HTML */
+    width: calc(100% - 60px); /* Ajuste para padding e borda */
+    padding: 18px 25px; /* AUMENTADO: Input de nome maior */
+    margin-bottom: 30px;
+    font-size: 1.8em; /* AUMENTADO: Texto do nome maior */
+    border: 2px solid #a5d6a7; /* Borda colorida */
+    border-radius: 12px; /* Mais arredondado */
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#studentNameInput:focus {
+    border-color: #4CAF50; /* Verde ao focar */
+    outline: none;
+    box-shadow: 0 0 0 5px rgba(76,175,80,0.3);
+}
+
+/* NOME DO ALUNO na tela de instruções */
+#studentNameDisplay {
+    font-size: 2.5em; /* AUMENTADO: Nome do aluno bem visível */
+    color: #00796b; /* Um verde azulado */
+    margin-bottom: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+
+/* Estilos para a mensagem final dentro do modal */
+.final-message {
+    font-size: 2em; /* AUMENTADO: Mensagem final bem grande e impactante */
+    font-weight: bold;
+    margin-top: 40px;
+    padding: 25px;
+    border-radius: 15px;
+    border: 3px solid; /* Borda mais grossa */
+    line-height: 1.5;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Estilos para mensagem de sucesso/motivação */
+.final-message.success {
+    background-color: #e8f5e9; /* Light green */
+    color: #2e7d32; /* Darker green */
+    border-color: #a5d6a7;
+}
+
+.final-message.motivation {
+    background-color: #fff3e0; /* Light orange */
+    color: #e65100; /* Darker orange */
+    border-color: #ffcc80;
+}
+
+/* NOVO ESTILO PARA O ÍCONE NO MODAL */
+.modal-icon {
+    font-size: 6em; /* AUMENTADO: Ícone GIGANTE! */
+    margin-bottom: 25px;
+    line-height: 1;
+    display: block; /* Garante que o ícone fique na própria linha */
+    animation: pulse 1.5s infinite ease-in-out; /* Animação suave de pulsação */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.modal-icon.success-icon {
+    color: #4CAF50; /* Verde para sucesso */
+}
+
+.modal-icon.motivation-icon {
+    color: #ff9800; /* Laranja para motivação */
+}
+
+/* Botão de fechar do modal (x) */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 3em; /* AUMENTADO: X maior */
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Ajustes para parágrafos em geral fora de blocos específicos */
+.section-container p {
+    font-size: 1.4em; /* Parágrafos nas instruções e outras seções */
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+/* Ajuste para o .admin-btn para que seja visível */
+.admin-btn {
+    background-color: #607D8B; /* Cinza azulado */
+    color: white;
+    font-size: 1.2em; /* Um pouco menor, pois é uma área do professor */
+    padding: 10px 20px;
+    margin-top: 15px;
+}
+
+.admin-btn:hover {
+    background-color: #455A64;
+}
+
+
